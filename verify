@@ -1,0 +1,16 @@
+#! /bin/bash
+
+PATH=$PATH:./node_modules/.bin
+
+###########################################
+#
+#   1. Start the "actual" server
+#   2. Run Pacts verification tests
+#   3. Kill the sever
+#
+###########################################
+
+node server.js & echo $! > ./server.pid
+jest __verify__/ --runInBand
+kill -9 $(<"./server.pid")
+rm  ./server.pid
