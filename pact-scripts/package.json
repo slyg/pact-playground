@@ -1,19 +1,14 @@
 {
-  "name": "consumer",
+  "name": "pact-scripts",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest __tests__/ --runInBand",
-    "verify": "./verify"
+    "start": "node server"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@pact-foundation/pact": "^7.3.0",
-    "axios": "^0.18.0",
     "jest": "^24.1.0"
-  },
-  "dependencies": {
-    "express": "^4.16.4"
   }
 }

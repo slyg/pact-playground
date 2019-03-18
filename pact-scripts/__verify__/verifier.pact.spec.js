@@ -1,7 +1,7 @@
 const path = require("path");
 const Verifier = require("@pact-foundation/pact").Verifier;
 
-const PROVIDER_NAME = "TrucService";
+const PROVIDER_NAME = "MyProvider";
 const PROVIDER_BASE_URL = "http://localhost:3000";
 
 /**
@@ -13,7 +13,9 @@ describe("Pact Verification", () => {
     let opts = {
       provider: PROVIDER_NAME,
       providerBaseUrl: PROVIDER_BASE_URL,
-      pactUrls: [path.resolve(process.cwd(), "pacts/trucapp-trucservice.json")]
+      pactUrls: [
+        path.resolve(process.cwd(), "pacts/myconsumer-myprovider.json")
+      ]
     };
 
     return new Verifier().verifyProvider(opts);

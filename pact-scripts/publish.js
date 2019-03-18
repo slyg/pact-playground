@@ -1,4 +1,5 @@
 const util = require("util");
+const path = require("path");
 const exec = util.promisify(require("child_process").exec);
 const { publishPacts } = require("@pact-foundation/pact-node");
 
@@ -7,7 +8,7 @@ const { publishPacts } = require("@pact-foundation/pact-node");
     const opts = {
       tags: "test",
       consumerVersion: (await exec("git rev-parse HEAD")).stdout.trim(),
-      pactFilesOrDirs: [`${process.cwd()}/pacts`],
+      pactFilesOrDirs: [path.resolve("../", "consumer/pacts")],
       pactBroker: "http://localhost/"
     };
     console.log(opts);
