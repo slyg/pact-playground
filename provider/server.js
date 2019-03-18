@@ -8,5 +8,8 @@ const port = 3000;
 
 app
   .get("/", (req, res) => res.send({ message: "Welcome" }))
-  .get("/truc", (req, res) => res.send({ ok: true }))
+  .get("/ok", (req, res) => res.send({ message: "OK" }))
+  .get("/ko", (req, res) =>
+    res.status(500).send({ error: "No no no no nooooohhh !" })
+  )
   .listen(port, () => console.log(`Example app listening on port ${port}`));

@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-const { getTruc } = require("../api");
+const { getOK, getKO } = require("../api");
 const { provider, port } = require("../providerMock");
 
 const url = "http://localhost";
@@ -11,15 +11,15 @@ describe("The API", () => {
   afterEach(() => provider.verify());
   afterAll(() => provider.finalize());
 
-  describe("The getTruc api", () => {
-    const EXPECTED_BODY = { ok: true };
+  describe("The getOK api", () => {
+    const EXPECTED_BODY = { message: "OK" };
 
     beforeEach(() => {
       provider.addInteraction({
         uponReceiving: "a request",
         withRequest: {
           method: "GET",
-          path: "/truc",
+          path: "/ok",
           headers: {
             Accept: "application/json"
           }
@@ -35,13 +35,41 @@ describe("The API", () => {
     });
 
     it("Returns a sucessful response", done => {
-      getTruc({ url, port })
+      getOK({ url, port })
         .then(response => {
-          expect(response.headers["content-type"]).toEqual(
-            "application/json; charset=utf-8"
-          );
-          expect(response.data).toEqual(EXPECTED_BODY);
-          expect(response.status).toEqual(200);
+          expect(response).toEqual("It is OK");
+        })
+        .then(done);
+    });
+  });
+
+  describe("The getKO api", () => {
+    const EXPECTED_BODY = { error: "No no no no nooooohhh !" };
+
+    beforeEach(() => {
+      provider.addInteraction({
+        uponReceiving: "another request",
+        withRequest: {
+          method: "GET",
+          path: "/ko",
+          headers: {
+            Accept: "application/json"
+          }
+        },
+        willRespondWith: {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          body: EXPECTED_BODY
+        }
+      });
+    });
+
+    it("Returns a sucessful response", done => {
+      getKO({ url, port })
+        .then(response => {
+          expect(response).toEqual("It is not OK");
         })
         .then(done);
     });
