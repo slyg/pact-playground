@@ -1,4 +1,3 @@
-const path = require("path");
 const Verifier = require("@pact-foundation/pact").Verifier;
 
 const PROVIDER_NAME = "MyProvider";
@@ -14,7 +13,7 @@ describe("Pact Verification", () => {
       provider: PROVIDER_NAME,
       providerBaseUrl: PROVIDER_BASE_URL,
       pactUrls: [
-        path.resolve(process.cwd(), "pacts/myconsumer-myprovider.json")
+        "http://localhost/pacts/provider/MyProvider/consumer/MyConsumer/latest"
       ]
     };
 
