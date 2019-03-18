@@ -1,6 +1,6 @@
-const pact = require("@pact-foundation/pact-node");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
+const { Verifier } = require("@pact-foundation/pact-node");
 
 (async () => {
   try {
@@ -11,7 +11,7 @@ const exec = util.promisify(require("child_process").exec);
       pactBroker: "http://localhost/"
     };
     console.log(opts);
-    await pact.publishPacts(opts);
+    await new Verifier().verifyProvider(opts);
   } catch (e) {
     console.error(e);
     throw e;
