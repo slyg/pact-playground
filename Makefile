@@ -1,3 +1,5 @@
+.BROCKER_PATH = pact-scripts/brocker-compose.yaml
+
 %/node_modules/: package*.json
 	@cd $(@D); npm i
 
@@ -13,11 +15,11 @@ contract-publish: pact-scripts/node_modules
 
 .PHONY: broker-start
 broker-start:
-	@docker-compose -f pact-scripts/brocker-compose.yaml up -d
+	@docker-compose -f $(.BROCKER_PATH) up -d
 
 .PHONY: broker-stop
 broker-stop:
-	@docker-compose -f pact-scripts/brocker-compose.yaml down
+	@docker-compose -f $(.BROCKER_PATH) down
 
 .PHONY: provider-start
 .ONESHELL:
