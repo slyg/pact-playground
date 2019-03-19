@@ -1,5 +1,5 @@
 .DEFAULT_GOAL = help
-.BROCKER_PATH = pact-scripts/brocker-compose.yaml
+.BROCKER_PATH = brocker-compose.yaml
 
 .PHONY: help ## Display help section
 help:
@@ -12,7 +12,7 @@ help:
 %/node_modules/: package*.json
 	@cd $(@D); npm i
 
-.GO_BIN := provider/server pact-scripts/publish
+.GO_BIN := provider/server consumer/publish
 
 .ONESHELL:
 $(.GO_BIN):
@@ -25,8 +25,8 @@ contract: consumer/node_modules
 
 .PHONY: contract-publish ## Publish the contract to the broker
 .ONESHELL:
-contract-publish: pact-scripts/publish
-	@cd pact-scripts; ./publish
+contract-publish: consumer/publish
+	@cd consumer; ./publish
 
 .PHONY: broker ## Start the brocker
 broker:
@@ -49,5 +49,5 @@ provider-stop:
 .PHONY: verify ## Start the provider and test the contract against it
 .ONESHELL:
 verify: provider-start
-	@cd pact-scripts; go test -v -run TestProvider; cd ..
+	@cd provider; go test -v -run TestProvider; cd ..
 	make provider-stop
