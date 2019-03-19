@@ -22,8 +22,8 @@ contract: consumer/node_modules
 contract-publish: pact-scripts/node_modules
 	@cd pact-scripts; node publish
 
-.PHONY: broker-start ## Start the brocker
-broker-start:
+.PHONY: broker ## Start the brocker
+broker:
 	@docker-compose -f $(.BROCKER_PATH) up -d
 
 .PHONY: broker-stop ## Stop the brocker
