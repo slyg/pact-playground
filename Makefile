@@ -12,9 +12,11 @@ help:
 %/node_modules/: package*.json
 	@cd $(@D); npm i
 
+.GO_BIN := provider/server pact-scripts/publish
+
 .ONESHELL:
-provider/server:
-	@cd $(@D); go build server.go
+$(.GO_BIN):
+	@cd $(@D); go build $(@F).go
 
 .PHONY: contract ## Run the consumer unit tests and create the contract
 .ONESHELL:
@@ -23,8 +25,8 @@ contract: consumer/node_modules
 
 .PHONY: contract-publish ## Publish the contract to the broker
 .ONESHELL:
-contract-publish: pact-scripts/node_modules
-	@cd pact-scripts; node publish
+contract-publish: pact-scripts/publish
+	@cd pact-scripts; ./publish
 
 .PHONY: broker ## Start the brocker
 broker:

@@ -3,3 +3,4 @@ node_modules
 *.pid
 server
 consumer/pacts
+pact-scripts/publish
