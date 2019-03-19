@@ -12,10 +12,12 @@ help:
 %/node_modules/: package*.json
 	@cd $(@D); npm i
 
-.GO_BIN := provider/server consumer/publish
+.ONESHELL:
+provider/server:
+	@cd $(@D); go build src/*.go
 
 .ONESHELL:
-$(.GO_BIN):
+consumer/publish:
 	@cd $(@D); go build $(@F).go
 
 .PHONY: contract ## Run the consumer unit tests and create the contract
