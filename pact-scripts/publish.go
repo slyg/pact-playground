@@ -23,7 +23,7 @@ func main () {
 	p := dsl.Publisher{}
 	nerr := p.Publish(types.PublishRequest{
 		PactURLs: []string{"../consumer/pacts/myconsumer-myprovider.json"},
-		PactBroker:	"http://localhost",
+		PactBroker:	"http://localhost:80",
 		ConsumerVersion: string(revision),
 		Tags: []string{"master"},
 	})

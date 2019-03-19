@@ -38,7 +38,7 @@ broker-stop:
 
 .PHONY: provider-start
 .ONESHELL:
-provider-start: pact-scripts/node_modules provider/server
+provider-start: provider/server
 	@cd provider; ./server & echo $$! > ./server.pid
 
 .PHONY: provider-stop
@@ -48,6 +48,6 @@ provider-stop:
 
 .PHONY: verify ## Start the provider and test the contract against it
 .ONESHELL:
-verify: pact-scripts/node_modules provider-start
-	@cd pact-scripts; ./node_modules/.bin/jest __verify__/ --runInBand; cd ..
+verify: provider-start
+	@cd pact-scripts; go test -v -run TestProvider; cd ..
 	make provider-stop
