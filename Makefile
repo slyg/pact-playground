@@ -12,6 +12,10 @@ help:
 %/node_modules/: package*.json
 	@cd $(@D); npm i
 
+.ONESHELL:
+provider/server:
+	@cd $(@D); go build server.go
+
 .PHONY: contract ## Run the consumer unit tests and create the contract
 .ONESHELL:
 contract: consumer/node_modules
@@ -32,8 +36,8 @@ broker-stop:
 
 .PHONY: provider-start
 .ONESHELL:
-provider-start: pact-scripts/node_modules
-	@cd provider; node server & echo $$! > ./server.pid
+provider-start: pact-scripts/node_modules provider/server
+	@cd provider; ./server & echo $$! > ./server.pid
 
 .PHONY: provider-stop
 .ONESHELL:

@@ -4,7 +4,7 @@ This project demonstrates a basic use of contract driven tests using [Pact](http
 
 ## Prerequisites
 
-You may want to use GNU Make 4.2.1 to run the commands, have nodejs installed and a docker daemon running.
+You may want to use GNU Make 4.2.1 to run the commands, have nodeJS, go and a docker daemon running.
 
 ## Comments
 
