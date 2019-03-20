@@ -1,5 +1,5 @@
 .DEFAULT_GOAL = help
-.BROCKER_PATH = brocker-compose.yaml
+.BROCKER_CONFIG_PATH = brocker-compose.yaml
 
 .PHONY: help ## Display help section
 help:
@@ -35,12 +35,12 @@ contract-publish: consumer/publish
 .PHONY: broker ## Start the brocker
 broker:
 	@echo Start broker
-	@docker-compose -f $(.BROCKER_PATH) up -d
+	@docker-compose -f $(.BROCKER_CONFIG_PATH) up -d
 
 .PHONY: broker-stop ## Stop the brocker
 broker-stop:
 	@echo Stop broker
-	@docker-compose -f $(.BROCKER_PATH) down
+	@docker-compose -f $(.BROCKER_CONFIG_PATH) down
 
 .PHONY: provider-start
 .ONESHELL:
