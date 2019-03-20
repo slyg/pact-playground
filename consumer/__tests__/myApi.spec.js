@@ -3,6 +3,8 @@
  */
 const { getOK, getKO } = require("../api");
 const { provider, port } = require("../providerMock");
+const okReponse = require("./ok-response");
+const notOkReponse = require("./not-ok-response");
 
 const url = "http://localhost";
 
@@ -12,26 +14,8 @@ describe("The API", () => {
   afterAll(() => provider.finalize());
 
   describe("The getOK api", () => {
-    const EXPECTED_BODY = { message: "OK" };
-
-    beforeEach(() => {
-      provider.addInteraction({
-        uponReceiving: "a request",
-        withRequest: {
-          method: "GET",
-          path: "/ok",
-          headers: {
-            Accept: "application/json"
-          }
-        },
-        willRespondWith: {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          },
-          body: EXPECTED_BODY
-        }
-      });
+    beforeAll(() => {
+      provider.addInteraction(okReponse);
     });
 
     it("Returns a sucessful response", done => {
@@ -44,26 +28,8 @@ describe("The API", () => {
   });
 
   describe("The getKO api", () => {
-    const EXPECTED_BODY = { error: "No no no no nooooohhh !" };
-
-    beforeEach(() => {
-      provider.addInteraction({
-        uponReceiving: "another request",
-        withRequest: {
-          method: "GET",
-          path: "/ko",
-          headers: {
-            Accept: "application/json"
-          }
-        },
-        willRespondWith: {
-          status: 500,
-          headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          },
-          body: EXPECTED_BODY
-        }
-      });
+    beforeAll(() => {
+      provider.addInteraction(notOkReponse);
     });
 
     it("Returns an errored response", done => {

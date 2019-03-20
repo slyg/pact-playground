@@ -1,0 +1,17 @@
+{
+  "uponReceiving": "another request",
+  "withRequest": {
+    "method": "GET",
+    "path": "/ko",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "willRespondWith": {
+    "status": 500,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": { "error": "No no no no nooooohhh !" }
+  }
+}
