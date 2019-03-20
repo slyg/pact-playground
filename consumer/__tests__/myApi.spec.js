@@ -66,7 +66,7 @@ describe("The API", () => {
       });
     });
 
-    it("Returns a sucessful response", done => {
+    it("Returns an errored response", done => {
       getKO({ url, port })
         .then(response => {
           expect(response).toEqual("It is not OK");
