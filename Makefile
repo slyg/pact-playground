@@ -14,7 +14,7 @@ help:
 
 .ONESHELL:
 provider/server:
-	@cd $(@D); go build src/*.go
+	@cd $(@D); go build -o $(@F) src/*.go
 
 .ONESHELL:
 consumer/publish:
