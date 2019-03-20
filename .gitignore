@@ -1,7 +1,7 @@
+log
 logs
-node_modules
 *.pid
 server
+node_modules
 consumer/pacts
-pact-scripts/publish
-log
+consumer/publish
