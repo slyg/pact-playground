@@ -55,10 +55,9 @@ provider-stop:
 	@cd provider; kill -9 $$(cat "./server.pid"); rm ./server.pid
 
 .PHONY: verify ## Start the provider and test the contract against it
-.ONESHELL:
 verify: provider-start
 	@echo Start the provider and test the contract against it
-	@cd provider; go test -v -run TestProvider; cd ..
+	@go test -v -run TestProvider ./provider/tests;
 	make provider-stop
 
 .PHONY: all ## Run all commands in the correct order
