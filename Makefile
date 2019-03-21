@@ -75,4 +75,4 @@ verify-w-docker: provider-start
 	make provider-stop
 
 .PHONY: all ## Run all commands in the correct order
-all: broker contract contract-publish verify-w-docker broker-stop
+all: broker contract contract-publish verify broker-stop

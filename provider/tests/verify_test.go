@@ -18,8 +18,10 @@ func TestProvider(t *testing.T) {
 	pact.VerifyProvider(t, types.VerifyRequest{
 		// BrokerURL:       "http://localhost",
 		// Tags:            []string{"master"},
-		PactURLs:        []string{"http://localhost/pacts/provider/MyProvider/consumer/MyConsumer/latest"},
-		ProviderBaseURL: "http://localhost:3000",
+		PactURLs:                   []string{"http://localhost/pacts/provider/MyProvider/consumer/MyConsumer/latest"},
+		ProviderBaseURL:            "http://localhost:3000",
+		PublishVerificationResults: true,
+		ProviderVersion:            "1.0.0",
 		StateHandlers: types.StateHandlers{
 			"default": func() error { return nil },
 		},
