@@ -14,7 +14,7 @@ help:
 
 .ONESHELL:
 provider/server: provider/src/*.go
-	@echo Building provider server binary
+	@echo 🌀 Building provider server binary
 	@cd $(@D); go build -o $(@F) src/*.go
 
 .ONESHELL:
@@ -24,46 +24,46 @@ consumer/publish:
 .PHONY: contract ## Run the consumer unit tests and create the contract
 .ONESHELL:
 contract: consumer/node_modules
-	@echo Run consumer unit tests and create contract
+	@echo 🌀 Run consumer unit tests and create contract
 	@cd consumer; npm test
 
 .PHONY: contract-publish ## Publish the contract to the broker
 .ONESHELL:
 contract-publish: consumer/publish
-	@echo Publish contract
+	@echo 🌀 Publish contract
 	@cd consumer; ./publish
 
 .PHONY: broker ## Start the brocker
 broker:
-	@echo Start broker
+	@echo 🌀 Start broker
 	@docker-compose -f $(.BROCKER_CONFIG_PATH) up -d
 
 .PHONY: broker-stop ## Stop the brocker
 broker-stop:
-	@echo Stop broker
+	@echo 🌀 Stop broker
 	@docker-compose -f $(.BROCKER_CONFIG_PATH) down
 
 .PHONY: provider-start
 .ONESHELL:
 provider-start: provider/server
 	@cd provider; ./server & echo $$! > ./server.pid
-	@echo Provider server started
+	@echo 🌀 Provider server started
 
 .PHONY: provider-stop
 .ONESHELL:
 provider-stop:
 	@cd provider; kill -s TERM $$(cat "./server.pid"); rm ./server.pid
-	@echo Provider server stopped
+	@echo 🌀 Provider server stopped
 
 .PHONY: verify ## Start the provider and test the contract against it
 verify: provider-start
-	@echo Start the provider and test the contract against it
+	@echo 🌀 Start the provider and test the contract against it
 	@go test -v -run TestProvider ./provider/tests;
 	make provider-stop
 
 .PHONY: verify-w-docker ## Same as verify, using standalone dockerised cli
 verify-w-docker: provider-start
-	@echo Start the provider and test the contract against it
+	@echo 🌀 Start the provider and test the contract against it
 	docker run \
 		--rm \
 		-it \
@@ -75,4 +75,4 @@ verify-w-docker: provider-start
 	make provider-stop
 
 .PHONY: all ## Run all commands in the correct order
-all: broker contract contract-publish verify broker-stop
+all: broker contract contract-publish verify-w-docker broker-stop
