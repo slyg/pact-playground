@@ -1,6 +1,12 @@
 .DEFAULT_GOAL = help
 .BROCKER_CONFIG_PATH = brocker-compose.yaml
 
+blank := 
+define newline
+
+$(blank)
+endef
+
 .PHONY: help ## Display help section
 help:
 	@echo ""
@@ -14,7 +20,7 @@ help:
 
 .ONESHELL:
 provider/server: provider/src/*.go
-	@echo 🌀 Building provider server binary
+	@echo ""; echo 🌀 Building provider server binary
 	@cd $(@D); go build -o $(@F) src/*.go
 
 .ONESHELL:
@@ -24,46 +30,45 @@ consumer/publish:
 .PHONY: contract ## Run the consumer unit tests and create the contract
 .ONESHELL:
 contract: consumer/node_modules
-	@echo 🌀 Run consumer unit tests and create contract
+	@echo ""; echo 🌀 Run consumer unit tests and create contract
 	@cd consumer; npm test
 
 .PHONY: contract-publish ## Publish the contract to the broker
 .ONESHELL:
 contract-publish: consumer/publish
-	@echo 🌀 Publish contract
+	@echo ""; echo 🌀 Publish contract
 	@cd consumer; ./publish
 
 .PHONY: broker ## Start the brocker
 broker:
-	@echo 🌀 Start broker
+	@echo ""; echo 🌀 Start broker
 	@docker-compose -f $(.BROCKER_CONFIG_PATH) up -d
 
 .PHONY: broker-stop ## Stop the brocker
 broker-stop:
-	@echo 🌀 Stop broker
+	@echo ""; echo 🌀 Stop broker
 	@docker-compose -f $(.BROCKER_CONFIG_PATH) down
 
 .PHONY: provider-start
 .ONESHELL:
 provider-start: provider/server
 	@cd provider; ./server & echo $$! > ./server.pid
-	@echo 🌀 Provider server started
+	@echo ""; echo 🌀 Provider server started
 
 .PHONY: provider-stop
 .ONESHELL:
 provider-stop:
 	@cd provider; kill -s TERM $$(cat "./server.pid"); rm ./server.pid
-	@echo 🌀 Provider server stopped
+	@echo ""; echo 🌀 Provider server stopped
 
 .PHONY: verify ## Start the provider and test the contract against it
 verify: provider-start
-	@echo 🌀 Start the provider and test the contract against it
+	@echo ""; echo 🌀 Test the Consumer contract against the Provider **and** publishes the results
 	@go test -v -run TestProvider ./provider/tests;
 	make provider-stop
 
-.PHONY: verify-w-docker ## Same as verify, using standalone dockerised cli
+.PHONY: verify-w-docker ## Same as verify, using standalone dockerised cli (though it doesn't publish results)
 verify-w-docker: provider-start
-	@echo 🌀 Start the provider and test the contract against it
 	docker run \
 		--rm \
 		-it \
@@ -72,7 +77,17 @@ verify-w-docker: provider-start
 			--hostname host.docker.internal \
 			--port 3000 \
 			--provider-name MyProvider
-	make provider-stop
+
+.PACTICIPANTS = MyProvider MyConsumer
+.PHONY: can-i-deploy ## Checks if all "pacticipants are compliant"
+can-i-deploy:
+	@echo ""; echo 🌀 Checks if all \"pacticipants\" are compliant
+	@for pacticipant in $(.PACTICIPANTS); do \
+		echo can i deploy $$pacticipant ?; \
+		echo ----------------------------; \
+		pact-broker can-i-deploy -a $$pacticipant -b http://localhost -l; \
+		echo ""; \
+	done;
 
 .PHONY: all ## Run all commands in the correct order
-all: broker contract contract-publish verify broker-stop
+all: broker contract contract-publish verify can-i-deploy broker-stop
