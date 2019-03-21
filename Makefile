@@ -13,7 +13,8 @@ help:
 	@cd $(@D); npm i
 
 .ONESHELL:
-provider/server:
+provider/server: provider/src/*.go
+	@echo Building provider server binary
 	@cd $(@D); go build -o $(@F) src/*.go
 
 .ONESHELL:
@@ -45,14 +46,14 @@ broker-stop:
 .PHONY: provider-start
 .ONESHELL:
 provider-start: provider/server
-	@echo Start provider server
 	@cd provider; ./server & echo $$! > ./server.pid
+	@echo Provider server started
 
 .PHONY: provider-stop
 .ONESHELL:
 provider-stop:
-	@echo Stop provider server
-	@cd provider; kill -9 $$(cat "./server.pid"); rm ./server.pid
+	@cd provider; kill -s TERM $$(cat "./server.pid"); rm ./server.pid
+	@echo Provider server stopped
 
 .PHONY: verify ## Start the provider and test the contract against it
 verify: provider-start
