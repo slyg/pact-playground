@@ -61,5 +61,18 @@ verify: provider-start
 	@go test -v -run TestProvider ./provider/tests;
 	make provider-stop
 
+.PHONY: verify-w-docker ## Same as verify, using standalone dockerised cli
+verify-w-docker: provider-start
+	@echo Start the provider and test the contract against it
+	docker run \
+		--rm \
+		-it \
+		pactfoundation/pact-ref-verifier \
+			--broker-url http://host.docker.internal/\
+			--hostname host.docker.internal \
+			--port 3000 \
+			--provider-name MyProvider
+	make provider-stop
+
 .PHONY: all ## Run all commands in the correct order
 all: broker contract contract-publish verify broker-stop
