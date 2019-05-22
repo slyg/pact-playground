@@ -1,0 +1,17 @@
+{
+  "provider": {
+    "name": "MyProvider"
+  },
+  "events": [
+    {
+      "name": "contract_content_changed"
+    }
+  ],
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:3001/target",
+    "headers": {
+      "Accept": "application/json"
+    }
+  }
+}

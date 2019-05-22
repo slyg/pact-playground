@@ -1,5 +1,5 @@
 .DEFAULT_GOAL = help
-.BROCKER_CONFIG_PATH = brocker-compose.yaml
+.BROKER_CONFIG_PATH = broker-compose.yaml
 
 blank := 
 define newline
@@ -42,12 +42,12 @@ contract-publish: consumer/publish
 .PHONY: broker ## Start the brocker
 broker:
 	@echo ""; echo 🌀 Start broker
-	@docker-compose -f $(.BROCKER_CONFIG_PATH) up -d
+	@docker-compose -f $(.BROKER_CONFIG_PATH) up -d
 
 .PHONY: broker-stop ## Stop the brocker
 broker-stop:
 	@echo ""; echo 🌀 Stop broker
-	@docker-compose -f $(.BROCKER_CONFIG_PATH) down
+	@docker-compose -f $(.BROKER_CONFIG_PATH) down
 
 .PHONY: provider-start
 .ONESHELL:
@@ -89,5 +89,20 @@ can-i-deploy:
 		echo ""; \
 	done;
 
+.PHONY: webhook-run-recipient ## Run the webhook logger
+webhook-run-recipient:
+	@cd webhook-recipient && node server
+
+.PHONY: webhook-create ## Create the webhook spec
+webhook-create:
+	@curl \
+		-k -v \
+		-d "@webhook-spec.json" \
+		-H "Content-Type: application/json" \
+		https://localhost:8443/webhooks
+
 .PHONY: all ## Run all commands in the correct order
 all: broker contract contract-publish verify can-i-deploy broker-stop
+
+.PHONY: all-but-dont-stop ## Run all commands in the correct order, doesnt stop
+all-but-dont-stop: broker contract contract-publish verify can-i-deploy
