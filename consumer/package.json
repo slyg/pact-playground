@@ -9,11 +9,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@pact-foundation/pact": "^7.3.0",
+    "@pact-foundation/pact": "^8.2.4",
     "axios": "^0.18.0",
-    "jest": "^24.1.0"
+    "jest": "^24.8.0"
   },
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.17.0"
   }
 }
