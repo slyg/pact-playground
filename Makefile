@@ -107,5 +107,5 @@ webhook-delete-all:
 .PHONY: all ## Run all commands in the correct order
 all: broker contract contract-publish verify can-i-deploy broker-stop
 
-.PHONY: all-but-dont-stop ## Run all commands in the correct order, doesnt stop
+.PHONY: all-but-dont-stop ## Run all commands in the correct order, doesn't stop the broker
 all-but-dont-stop: broker contract contract-publish verify can-i-deploy
