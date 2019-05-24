@@ -57,3 +57,27 @@ Now you can stop the brocker:
 ```shell
 $ make brocker-stop
 ```
+
+## Webhooks
+
+To create a webhook make sure the broker is running and that a contract has been published and verified already:
+
+```shell
+$ make all-but-dont-stop
+```
+
+Then create a webhook:
+
+```shell
+$ make webhook-create # uses the spec located in `./webhook-spec.json`
+```
+
+You can verify its existence using the HAL browser exposed by the broker.
+
+Then you have to start the webhook recipient server in a new tab to trace the incoming request:
+
+```shell
+$ make webhook-run-recipient
+```
+
+Now you can make a modification to the contract, publish it, and see the trace in the webhook recipient terminal session:
