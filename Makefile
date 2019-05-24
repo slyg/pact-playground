@@ -18,7 +18,7 @@ help:
 	@grep -E '^\.PHONY: [a-zA-Z_-]+ .*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = "(: |##)"}; {printf "\033[36m\t%-25s\033[0m %s\n", $$2, $$3}'
 	@echo ""
 
-%/node_modules/: package*.json
+%/node_modules/:
 	@cd $(@D); npm i
 
 .ONESHELL:
@@ -93,7 +93,7 @@ can-i-deploy:
 	done;
 
 .PHONY: webhook-run-recipient ## Run the webhook logger
-webhook-run-recipient:
+webhook-run-recipient: webhook-recipient/node_modules
 	@cd webhook-recipient && node server
 
 .PHONY: webhook-create ## Create the webhook spec
@@ -105,7 +105,8 @@ webhook-delete-all:
 	@delete-webhooks
 
 .PHONY: all ## Run all commands in the correct order
-all: broker contract contract-publish verify can-i-deploy broker-stop
-
-.PHONY: all-but-dont-stop ## Run all commands in the correct order, doesn't stop the broker
-all-but-dont-stop: broker contract contract-publish verify can-i-deploy
+all: broker contract contract-publish verify can-i-deploy
+	@echo 🌀 Done
+	@echo A pact between a consumer and a provider is now published and verified on the broker: http://localhost
+	@echo Use "make broker-stop" to stop the broker.
+	@echo

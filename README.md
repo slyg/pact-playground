@@ -63,7 +63,7 @@ $ make brocker-stop
 To create a webhook make sure the broker is running and that a contract has been published and verified already:
 
 ```shell
-$ make all-but-dont-stop
+$ make all
 ```
 
 Then create a webhook:
