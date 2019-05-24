@@ -10,4 +10,6 @@ uid=`
             | (read h; echo ${h:28:22})
 `;
 
+echo 🌀 Created webhook has the id: $uid
+
 echo $uid >> ./.webhooks
