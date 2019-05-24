@@ -1,0 +1,8 @@
+#! /bin/bash
+webhooks_list_file=./.webhooks
+
+while read p; do
+  curl -k -s -H "Content-Type: application/json" -X DELETE https://localhost:8443/webhooks/$p
+done <$webhooks_list_file
+
+rm $webhooks_list_file

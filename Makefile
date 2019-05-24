@@ -1,5 +1,8 @@
-.DEFAULT_GOAL = help
-.BROKER_CONFIG_PATH = broker-compose.yaml
+SHELL := /bin/bash
+PATH := bin:$(PATH)
+
+.DEFAULT_GOAL := help
+.BROKER_CONFIG_PATH := broker-compose.yaml
 
 blank := 
 define newline
@@ -95,11 +98,11 @@ webhook-run-recipient:
 
 .PHONY: webhook-create ## Create the webhook spec
 webhook-create:
-	@curl \
-		-k -v \
-		-d "@webhook-spec.json" \
-		-H "Content-Type: application/json" \
-		https://localhost:8443/webhooks
+	@create-webhook
+
+.PHONY: webhook-delete-all ## Deletes all webhooks
+webhook-delete-all:
+	@delete-webhooks
 
 .PHONY: all ## Run all commands in the correct order
 all: broker contract contract-publish verify can-i-deploy broker-stop

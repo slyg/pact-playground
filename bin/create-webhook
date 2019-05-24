@@ -1,0 +1,13 @@
+#! /bin/bash
+uid=`
+    curl \
+        -k \
+        -s \
+        -d "@webhook-spec.json" \
+        -H "Content-Type: application/json" \
+        https://localhost:8443/webhooks \
+            | jq '._links.self.href' \
+            | (read h; echo ${h:28:22})
+`;
+
+echo $uid >> ./.webhooks
