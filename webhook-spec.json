@@ -9,7 +9,7 @@
   ],
   "request": {
     "method": "POST",
-    "url": "http://localhost:3001/target",
+    "url": "http://docker.for.mac.localhost:3001/target",
     "headers": {
       "Accept": "application/json"
     }
