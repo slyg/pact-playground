@@ -11,7 +11,12 @@
     "method": "POST",
     "url": "http://docker.for.mac.localhost:3001/target",
     "headers": {
+      "Content-Type": "application/json",
       "Accept": "application/json"
+    },
+    "body": {
+      "consumerName": "${pactbroker.consumerName}",
+      "consumerVersionTags": "${pactbroker.consumerVersionTags}"
     }
   }
 }
