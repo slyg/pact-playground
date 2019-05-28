@@ -113,6 +113,11 @@ webhook-trigger-contract-change:
 	@git stash apply
 	$(MAKE) contract
 
+.PHONY: cleanup ## Cleanup task
+cleanup:
+	@rm -f .webhooks
+	@$(MAKE) broker-stop
+
 .PHONY: all ## Run all commands in the correct order
 all: broker contract verify can-i-deploy
 	@echo 🌀 Done
