@@ -5,6 +5,8 @@ import (
 
 	"github.com/pact-foundation/pact-go/dsl"
 	"github.com/pact-foundation/pact-go/types"
+	"os/exec"
+	"log"
 )
 
 func TestProvider(t *testing.T) {
@@ -15,13 +17,19 @@ func TestProvider(t *testing.T) {
 		DisableToolValidityCheck: true,
 	}
 
+	cmd := exec.Command("git", "rev-parse", "--short", "HEAD")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+        log.Fatalf("cmd.Run() failed with %s\n", err)
+    }
+
 	pact.VerifyProvider(t, types.VerifyRequest{
 		// BrokerURL:       "http://localhost",
 		// Tags:            []string{"master"},
 		PactURLs:                   []string{"http://localhost/pacts/provider/MyProvider/consumer/MyConsumer/latest"},
 		ProviderBaseURL:            "http://localhost:3000",
 		PublishVerificationResults: true,
-		ProviderVersion:            "1.0.0",
+		ProviderVersion:            string(out),
 		StateHandlers: types.StateHandlers{
 			"default": func() error { return nil },
 		},
