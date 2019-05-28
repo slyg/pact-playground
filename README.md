@@ -80,4 +80,12 @@ Then you have to start the webhook recipient server in a new tab to trace the in
 $ make webhook-run-recipient
 ```
 
-Now you can make a modification to the contract, publish it, and see the trace in the webhook recipient terminal session:
+Now you can make a modification to the contract, publish it, and see the trace in the webhook recipient terminal session.
+
+For convenience, you can use the following command:
+
+```shell
+$ make webhook-trigger-contract-change
+```
+
+It'll cherry-pick a change, rebuild the contract, publish it, then restore the current history.
