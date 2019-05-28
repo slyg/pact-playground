@@ -29,17 +29,14 @@ provider/server: provider/src/*.go
 
 .ONESHELL:
 consumer/publish:
+	@echo ""; echo 🌀 Building consumer publish command binary
 	@cd $(@D); go build $(@F).go
 
-.PHONY: contract ## Run the consumer unit tests and create the contract
+.PHONY: contract ## Run the consumer unit tests, creates the contract, publish it
 .ONESHELL:
-contract: consumer/node_modules
+contract: consumer/node_modules consumer/publish
 	@echo ""; echo 🌀 Run consumer unit tests and create contract
 	@cd consumer; npm test
-
-.PHONY: contract-publish ## Publish the contract to the broker
-.ONESHELL:
-contract-publish: consumer/publish
 	@echo ""; echo 🌀 Publish contract
 	@cd consumer; ./publish
 
@@ -111,15 +108,13 @@ webhook-trigger-contract-change:
 	@git stash
 	@git cherry-pick 6e17876
 	$(MAKE) contract
-	$(MAKE) contract-publish
 	@echo ""; echo 🌀 Restoring commit history to HEAD
 	@git reset --hard HEAD~1
 	@git stash apply
 	$(MAKE) contract
-	$(MAKE) contract-publish
 
 .PHONY: all ## Run all commands in the correct order
-all: broker contract contract-publish verify can-i-deploy
+all: broker contract verify can-i-deploy
 	@echo 🌀 Done
 	@echo A pact between a consumer and a provider is now published and verified on the broker: http://localhost
 	@echo Use "make broker-stop" to stop the broker.

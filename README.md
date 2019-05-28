@@ -4,7 +4,11 @@ This project demonstrates a basic use of contract driven tests using [Pact](http
 
 ## Prerequisites
 
-You may want to use GNU Make 4.2.1 to run the commands, have nodeJS, go and a docker daemon running.
+- OSX (sorry its just a demo)
+- GNU Make +4.2.1
+- nodejs
+- go
+- docker
 
 ## Comments
 
@@ -25,7 +29,15 @@ $ make help
 
 ## Scenario
 
-### 1. Contract
+### 1. Start broker
+
+```shell
+$ make broker
+```
+
+The broker can be accessed via http://localhost
+
+### 2. Create Contract and publish it
 
 The consumer has some unit tests which produce or reuse a contract when being ran:
 
@@ -33,16 +45,7 @@ The consumer has some unit tests which produce or reuse a contract when being ra
 $ make contract
 ```
 
-This will produce a json file containing the contract.
-
-### 2. Publish
-
-This contract can them be published on a brocker:
-
-```shell
-$ make broker
-$ make contract-publish
-```
+This will produce a json file containing the contract. This contract is then published on the broker.
 
 ### 3. Verify
 
@@ -52,19 +55,9 @@ For this step, we use a Pact lib to run the contract request and verify that the
 $ make verify
 ```
 
-Now you can stop the brocker:
-
-```shell
-$ make brocker-stop
-```
-
 ## Webhooks
 
-To create a webhook make sure the broker is running and that a contract has been published and verified already:
-
-```shell
-$ make all
-```
+To create a webhook make sure the broker is running and that a contract has been published and verified already.
 
 Then create a webhook:
 
@@ -89,3 +82,11 @@ $ make webhook-trigger-contract-change
 ```
 
 It'll cherry-pick a change, rebuild the contract, publish it, then restore the current history.
+
+## Cleanup
+
+Now you can stop the brocker:
+
+```shell
+$ make brocker-stop
+```
