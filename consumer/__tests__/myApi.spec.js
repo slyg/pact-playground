@@ -21,7 +21,7 @@ describe("The API", () => {
     it("Returns a sucessful response", done => {
       getOK({ url, port })
         .then(response => {
-          expect(response).toEqual("It is OK");
+          expect(response).toEqual("It is OK!");
         })
         .then(done);
     });
