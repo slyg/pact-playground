@@ -4,12 +4,6 @@ PATH := bin:$(PATH)
 .DEFAULT_GOAL := help
 .BROKER_CONFIG_PATH := broker-compose.yaml
 
-blank := 
-define newline
-
-$(blank)
-endef
-
 .PHONY: help ## Display help section
 help:
 	@echo ""
