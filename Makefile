@@ -19,6 +19,7 @@ help:
 	@echo ""
 
 %/node_modules/:
+	@echo ""; echo 🌀 Install npm dependencies
 	@cd $(@D); npm i
 
 .ONESHELL:
