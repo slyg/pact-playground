@@ -53,14 +53,14 @@ provider-start: provider/server
 .PHONY: provider-stop
 .ONESHELL:
 provider-stop:
-	@cd provider; kill -s TERM $$(cat "./server.pid"); rm ./server.pid
+	@cd provider; kill -s TERM $$(cat "./server.pid") &> /dev/null; rm -f ./server*
 	@echo ""; echo 🌀 Provider server stopped
 
 .PHONY: verify ## Start the provider and test the contract against it
 verify: provider-start
 	@echo ""; echo 🌀 Test the Consumer contract against the Provider **and** publishes the results
-	@go test -v -run TestProvider ./provider/tests;
-	make provider-stop
+	@go test -v -run TestProvider ./provider/tests &> /dev/null;
+	$(MAKE) provider-stop
 
 .PHONY: verify-w-docker ## Same as verify, using standalone dockerised cli (though it doesn't publish results)
 verify-w-docker: provider-start
@@ -111,6 +111,7 @@ webhook-trigger-contract-change:
 cleanup:
 	@rm -f .webhooks
 	@$(MAKE) broker-stop
+	@$(MAKE) provider-stop
 
 .PHONY: all ## Run all commands in the correct order
 all: broker contract verify can-i-deploy
