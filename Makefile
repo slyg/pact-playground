@@ -104,6 +104,15 @@ webhook-create:
 webhook-delete-all:
 	@delete-webhooks
 
+.PHONY: webhook-trigger-contract-change ## Trigger contract change
+webhook-trigger-contract-change:
+	@git cherry-pick 7421f3d
+	$(MAKE) contract
+	$(MAKE) contract-publish
+	@git reset --hard HEAD~1
+	$(MAKE) contract
+	$(MAKE) contract-publish
+
 .PHONY: all ## Run all commands in the correct order
 all: broker contract contract-publish verify can-i-deploy
 	@echo 🌀 Done
