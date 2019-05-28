@@ -15,7 +15,7 @@ help:
 	@echo ""
 	@echo "  Available commands:"
 	@echo ""
-	@grep -E '^\.PHONY: [a-zA-Z_-]+ .*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = "(: |##)"}; {printf "\033[36m\t%-25s\033[0m %s\n", $$2, $$3}'
+	@grep -E '^\.PHONY: [a-zA-Z_-]+ .*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = "(: |##)"}; {printf "\033[36m\t%-32s\033[0m %s\n", $$2, $$3}'
 	@echo ""
 
 %/node_modules/:
@@ -105,12 +105,16 @@ webhook-create:
 webhook-delete-all:
 	@delete-webhooks
 
-.PHONY: webhook-trigger-contract-change ## Trigger contract change
+.PHONY: webhook-trigger-contract-change ## Trigger contract change (cherry-picks a change)
 webhook-trigger-contract-change:
+	@echo ""; echo 🌀 Cherry picking commit 6e17876
+	@git stash
 	@git cherry-pick 6e17876
 	$(MAKE) contract
 	$(MAKE) contract-publish
+	@echo ""; echo 🌀 Restoring commit history to HEAD
 	@git reset --hard HEAD~1
+	@git stash apply
 	$(MAKE) contract
 	$(MAKE) contract-publish
 
