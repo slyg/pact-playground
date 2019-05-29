@@ -12,8 +12,8 @@ import (
 func TestProvider(t *testing.T) {
 
 	pact := &dsl.Pact{
-		Consumer:                 "MyConsumer",
-		Provider:                 "MyProvider",
+		Consumer:                 "pactConsumer_frontend",
+		Provider:                 "pactProvider_backend",
 		DisableToolValidityCheck: true,
 	}
 
@@ -26,7 +26,7 @@ func TestProvider(t *testing.T) {
 	pact.VerifyProvider(t, types.VerifyRequest{
 		// BrokerURL:       "http://localhost",
 		// Tags:            []string{"master"},
-		PactURLs:                   []string{"http://localhost/pacts/provider/MyProvider/consumer/MyConsumer/latest"},
+		PactURLs:                   []string{"http://localhost/pacts/provider/pactProvider_backend/consumer/pactConsumer_frontend/latest"},
 		ProviderBaseURL:            "http://localhost:3000",
 		PublishVerificationResults: true,
 		ProviderVersion:            string(out),

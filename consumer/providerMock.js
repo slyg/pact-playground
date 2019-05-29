@@ -8,8 +8,8 @@ const { Pact } = require("@pact-foundation/pact");
 const MOCK_SERVER_PORT = 8989;
 
 const provider = new Pact({
-  consumer: "MyConsumer",
-  provider: "MyProvider",
+  consumer: "pactConsumer_frontend",
+  provider: "pactProvider_backend",
   port: MOCK_SERVER_PORT,
   log: path.resolve(process.cwd(), "logs", "mockserver-integration.log"),
   logLevel: "error",

@@ -71,9 +71,9 @@ verify-w-docker: provider-start
 			--broker-url http://host.docker.internal/\
 			--hostname host.docker.internal \
 			--port 3000 \
-			--provider-name MyProvider
+			--provider-name pactProvider_backend
 
-.PACTICIPANTS = MyProvider MyConsumer
+.PACTICIPANTS = pactProvider_backend pactConsumer_frontend
 .PHONY: can-i-deploy ## Checks if all "pacticipants are compliant"
 can-i-deploy:
 	@echo ""; echo 🌀 Checks if all \"pacticipants\" are compliant
@@ -109,7 +109,10 @@ webhook-trigger-contract-change:
 
 .PHONY: cleanup ## Cleanup task
 cleanup:
-	@rm -f .webhooks
+	@rm -rf \
+		.webhooks \
+		./consumer/pacts \
+		./consumer/publish
 	@$(MAKE) broker-stop
 	@$(MAKE) provider-stop
 

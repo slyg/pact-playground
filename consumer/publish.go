@@ -10,9 +10,9 @@ import (
 	"github.com/pact-foundation/pact-go/types"
 )
 
-func main () {
+func main() {
 
-	revision, err := exec.Command(`git`, []string{"rev-parse", "HEAD"}...).Output();
+	revision, err := exec.Command(`git`, []string{"rev-parse", "HEAD"}...).Output()
 
 	if err != nil {
 		log.Println("ERROR: ", err)
@@ -22,10 +22,10 @@ func main () {
 
 	p := dsl.Publisher{}
 	nerr := p.Publish(types.PublishRequest{
-		PactURLs: []string{"../consumer/pacts/myconsumer-myprovider.json"},
-		PactBroker:	"http://localhost:80",
+		PactURLs:        []string{"../consumer/pacts/pactconsumer_frontend-pactprovider_backend.json"},
+		PactBroker:      "http://localhost:80",
 		ConsumerVersion: string(revision),
-		Tags: []string{"master"},
+		Tags:            []string{"master"},
 	})
 
 	if nerr != nil {
