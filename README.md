@@ -88,5 +88,5 @@ It'll cherry-pick a change, rebuild the contract, publish it, then restore the c
 Now you can stop the brocker:
 
 ```shell
-$ make brocker-stop
+$ make cleanup ## Will remove all artifacts and stop the broker
 ```
