@@ -1,0 +1,11 @@
+#!/bin/bash
+
+openssl req \
+    -x509 \
+    -newkey rsa:4096 \
+    -sha256 \
+    -keyout ssl/nginx-selfsigned.key \
+    -out ssl/nginx-selfsigned.crt \
+    -days 365 \
+    -nodes \
+    -subj "/C=GB/ST=London/L=London/O=Company Name/OU=Org/CN=localhost"
